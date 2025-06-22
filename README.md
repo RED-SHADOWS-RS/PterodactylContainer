@@ -6,103 +6,111 @@
 ![Pterodactyl](https://img.shields.io/badge/Pterodactyl-0e4688?style=for-the-badge&logo=pterodactyl&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 
-<div align="center">
-  <br>
-  🐳 <strong>Docker Containers for Pterodactyl Panel</strong> 🚀
-  <br>
-</div>
-
 ## ✨ Features
 
-- 🏗️ **Multi-architecture support**: Build for AMD64 and ARM64 platforms
-- 🤖 **Automated CI/CD**: Complete GitHub Actions pipeline for building and testing
-- 🛡️ **Security first**: Minimal attack surface with secure base images
-- 🚀 **Production ready**: Pre-configured and optimized for Pterodactyl Panel
-- ⚡ **Fast builds**: Efficient caching and optimized Dockerfiles
+- 🏗️ **Multi-arch builds**: AMD64 & ARM64
+- 🤖 **CI/CD**: Automated GitHub Actions pipeline
+- 🛡️ **Security**: Minimal, secure base images
+- 🚀 **Production ready**: Optimized for Pterodactyl
+- ⚡ **Fast**: Efficient caching
 
 ## 🐳 Supported Images
 
-### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="Java" width="20" height="20"/> Java Runtime Environment
+### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="Java" width="20" height="20"/> Java
 
 **Versions:** 8, 11, 17, 21, 23  
-**Base:** OpenJDK with Alpine Linux
+**Base:** OpenJDK (Alpine)
 
-### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Node.js" width="20" height="20"/> Node.js Runtime
+### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Node.js" width="20" height="20"/> Node.js
 
 **Versions:** 12, 14, 16, 18, 20, 22  
-**Base:** Official Node.js with Alpine Linux
+**Base:** Official Node.js (Alpine)
 
-### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python" width="20" height="20"/> Python Runtime
+### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python" width="20" height="20"/> Python
 
 **Versions:** 3.6, 3.7, 3.8, 3.9, 3.11  
-**Base:** Python Slim with Debian
+**Base:** Python Slim (Debian)
 
 ## 🚀 Usage
 
-### 🔨 Build Docker images locally
+### 🐳 Pull from GitHub Container Registry
 
 ```bash
-# Java 17 image
+# Node.js 22
+
+docker pull ghcr.io/RED-SHADOWS-RS/nodejs_v22
+
+# Java 17
+
+docker pull ghcr.io/RED-SHADOWS-RS/java_v17
+
+# Python 3.9
+
+docker pull ghcr.io/RED-SHADOWS-RS/python_v3.9
+```
+
+> Change the tag/version as needed.
+
+### 🔨 Build locally
+
+```bash
+# Java 17
+
 docker build -f src/generic/java/v17/Dockerfile -t pterodactyl-java:v17 src/generic/java/
 
-# Node.js 18 image  
+# Node.js 18
+
 docker build -f src/generic/nodejs/v18/Dockerfile -t pterodactyl-nodejs:v18 src/generic/nodejs/
 
-# Python 3.9 image
+# Python 3.9
+
 docker build -f src/generic/python/v3.9/Dockerfile -t pterodactyl-python:v3.9 src/generic/python/
 ```
 
 ### ⚙️ Environment Variables
 
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `STARTUP` | Application startup command | - | ✅ |
-| `TZ` | Timezone setting | `UTC` | ❌ |
+| Variable  | Description                | Default | Required |
+|-----------|----------------------------|---------|----------|
+| `STARTUP` | Startup command            | -       | ✅       |
+| `TZ`      | Timezone                   | `UTC`   | ❌       |
 
 ### 📁 Volume
 
-- `/home/container` - Application files and data directory
+- `/home/container` — App files & data
 
-### 🎮 Using with Pterodactyl Panel
+### 🥚 With Pterodactyl Eggs
 
-1. **Create a new server** in your Pterodactyl Panel
-2. **Set the Docker Image** to one of the built images (e.g., `pterodactyl-java:v17`)
-3. **Configure startup command** in the `STARTUP` environment variable
-4. **Set working directory** to `/home/container`
-5. **Start your server** and enjoy!
+Add the image URLs to the "Docker Images" field in your egg configuration:
+
+```
+ghcr.io/RED-SHADOWS-RS/nodejs_v22
+ghcr.io/RED-SHADOWS-RS/java_v17
+ghcr.io/RED-SHADOWS-RS/python_v3.9
+```
+
+Select the image when creating a server. Set the `STARTUP` variable and working directory as needed.
 
 ## 🤖 GitHub Actions
 
-⚙️ Builds all images automatically when code is pushed to main branch.
-
-### 🔧 Workflow Details
-
-- **Trigger**: Push to `main` branch, manual dispatch, or releases
-- **Multi-platform**: Builds for both AMD64 and ARM64 architectures  
-- **Caching**: Uses GitHub Actions cache for faster builds
+- Builds all images on push to `main` or release
+- Multi-platform (AMD64/ARM64)
+- Uses build cache for speed
 
 ## 🤝 Contributing
 
-🎯 We welcome contributions to improve the containers!
-
-### 📋 Steps to Contribute
-
-1. 🍴 **Fork** the repository
-2. 🌿 **Create** a feature branch
-3. ✏️ **Make** your changes
-4. 🧪 **Test** locally
-5. 📤 **Submit** a Pull Request
+1. Fork & branch
+2. Make changes
+3. Test locally
+4. Pull request
 
 ## 📜 License
 
-📄 MIT License - see [LICENSE](LICENSE) file for details.
+MIT — see [LICENSE](LICENSE)
 
 ---
 
-<div align="center">
+<p style="text-align:center;">
+⭐ Star this repo if it helped you! ⭐
+</p>
 
-**⭐ Star this repository if it helped you! ⭐**
-
-**© Copyright** [![RED SHADOWS | RS](https://img.shields.io/badge/RED%20SHADOWS%20|%20RS-DC143C?style=flat&logo=github&logoColor=white&labelColor=2F2F2F)](https://github.com/RED-SHADOWS-RS) **|** [![Shadow-x78](https://img.shields.io/badge/Shadow--x78-000000?style=flat&logo=github&logoColor=white&labelColor=2F2F2F)](https://github.com/Shadow-x78)
-
-</div>
+<span style="font-weight:bold;vertical-align:middle;">&#169; 2025 Copyright</span> <img src="https://img.shields.io/badge/RED%20SHADOWS%20%7C%20RS-DC143C?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="RED SHADOWS | RS" style="vertical-align:middle;"/> &#124; <img src="https://img.shields.io/badge/Shadow--x78-000000?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="Shadow-x78" style="vertical-align:middle;"/>

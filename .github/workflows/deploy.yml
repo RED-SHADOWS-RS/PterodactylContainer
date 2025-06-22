@@ -12,7 +12,8 @@ on:
   release:
     types: [published]
 
-jobs:  build-java:
+jobs:
+  build-java:
     name: "Build Java Images"
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
@@ -38,7 +39,8 @@ jobs:  build-java:
           file: ./src/generic/java/${{ matrix.version }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: false
-          tags: pterodactyl-java:${{ matrix.version }}
+          tags: |
+            pterodactyl-java:${{ matrix.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -61,14 +63,26 @@ jobs:  build-java:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Set Node.js version without v
+        id: nodejsver
+        run: echo "VERSION=${{ matrix.version }}" | sed 's/^v//' >> $GITHUB_OUTPUT
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build Node.js ${{ matrix.version }}
         uses: docker/build-push-action@v5
         with:
           context: ./src/generic/nodejs
           file: ./src/generic/nodejs/${{ matrix.version }}/Dockerfile
           platforms: linux/amd64,linux/arm64
-          push: false
-          tags: pterodactyl-nodejs:${{ matrix.version }}
+          push: ${{ github.event_name == 'release' || github.event_name == 'push' }}
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/nodejs_v${{ steps.nodejsver.outputs.VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -98,7 +112,8 @@ jobs:  build-java:
           file: ./src/generic/python/${{ matrix.version }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: false
-          tags: pterodactyl-python:${{ matrix.version }}
+          tags: |
+            pterodactyl-python:${{ matrix.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
