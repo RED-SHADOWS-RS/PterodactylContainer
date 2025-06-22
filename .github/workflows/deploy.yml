@@ -1,5 +1,4 @@
-# © Copyright RED SHADOWS | RS | Shadow-x78
-# Build Container Images for Pterodactyl Panel
+# © Copyright RED SHADOWS | RS - Shadow-x78
 
 name: Build Container Images
 
@@ -14,15 +13,13 @@ on:
     types: [published]
 
 jobs:
-  # ☕ Build Java Runtime Images
   build-java:
     name: "Build Java Images"
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
-    strategy:
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')    strategy:
       fail-fast: false
       matrix:
-        version: [v8, v11, v17, v18, v20, v22]
+        version: [v8, v11, v17, v18, v19, v20, v21, v22, v23]
 
     steps:
       - name: Checkout repository
@@ -45,7 +42,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  # 🟢 Build Node.js Runtime Images
   build-nodejs:
     name: "Build Node.js Images"
     runs-on: ubuntu-latest
@@ -76,7 +72,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  # 🐍 Build Python Runtime Images
   build-python:
     name: "Build Python Images"
     runs-on: ubuntu-latest
@@ -107,7 +102,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  # 📊 Build Summary and Results
   build-summary:
     name: "Build Summary"
     runs-on: ubuntu-latest

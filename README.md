@@ -8,7 +8,7 @@
 
 <div align="center">
   <br>
-  🐳 <strong>Optimized Docker Containers for Pterodactyl Panel</strong> 🚀
+  🐳 <strong>Docker Containers for Pterodactyl Panel</strong> 🚀
   <br>
 </div>
 
@@ -24,7 +24,7 @@
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="Java" width="20" height="20"/> Java Runtime Environment
 
-**Versions:** 8, 11, 17, 18, 20, 22  
+**Versions:** 8, 11, 17, 21, 23  
 **Base:** OpenJDK with Alpine Linux
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Node.js" width="20" height="20"/> Node.js Runtime
@@ -103,6 +103,6 @@ docker build -f src/generic/python/v3.9/Dockerfile -t pterodactyl-python:v3.9 sr
 
 **⭐ Star this repository if it helped you! ⭐**
 
-**© Copyright** <img src="https://img.shields.io/badge/RED%20SHADOWS%20|%20RS-DC143C?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="RED SHADOWS | RS" style="vertical-align: middle;"> **|** <img src="https://img.shields.io/badge/Shadow--x78-000000?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="Shadow-x78" style="vertical-align: middle;" onclick="window.open('https://github.com/Shadow-x78', '_blank')">
+**© Copyright** [![RED SHADOWS | RS](https://img.shields.io/badge/RED%20SHADOWS%20|%20RS-DC143C?style=flat&logo=github&logoColor=white&labelColor=2F2F2F)](https://github.com/RED-SHADOWS-RS) **|** [![Shadow-x78](https://img.shields.io/badge/Shadow--x78-000000?style=flat&logo=github&logoColor=white&labelColor=2F2F2F)](https://github.com/Shadow-x78)
 
 </div>

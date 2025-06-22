@@ -1,3 +1,5 @@
+# © Copyright RED SHADOWS | RS - Shadow-x78
+
 FROM --platform=$TARGETOS/$TARGETARCH openjdk:11-jdk
 
 LABEL author="Shadow-x78" maintainer="shadow.xox78@gmail.com"

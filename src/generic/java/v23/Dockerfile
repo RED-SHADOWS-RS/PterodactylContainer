@@ -1,15 +1,15 @@
 # © Copyright RED SHADOWS | RS - Shadow-x78
 
-FROM --platform=$TARGETOS/$TARGETARCH eclipse-temurin:8-jdk-jammy
+FROM --platform=$TARGETOS/$TARGETARCH eclipse-temurin:23-jdk-jammy
 
 LABEL author="Shadow-x78" \
       maintainer="support@red-shadows-rs.com" \
       version="1.0.0" \
-      description="Java 8 LTS runtime for Pterodactyl Panel" \
+      description="Java 23 runtime for Pterodactyl Panel" \
       org.opencontainers.image.source="https://github.com/Shadow-x78/PterodactylContainer" \
       org.opencontainers.image.vendor="RED SHADOWS | RS" \
-      org.opencontainers.image.title="Pterodactyl Java 8" \
-      org.opencontainers.image.description="Secure Java 8 LTS container for legacy Pterodactyl"
+      org.opencontainers.image.title="Pterodactyl Java 23" \
+      org.opencontainers.image.description="Secure Java 23 container for Pterodactyl"
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -36,7 +36,7 @@ RUN apt-get update \
 USER container
 ENV USER=container \
     HOME=/home/container \
-    JAVA_OPTS="-XX:+UseG1GC" \
+    JAVA_OPTS="-XX:+UseG1GC -XX:+UseStringDeduplication" \
     TZ=UTC
 
 WORKDIR /home/container

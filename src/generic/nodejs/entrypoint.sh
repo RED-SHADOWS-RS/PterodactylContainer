@@ -1,3 +1,5 @@
+# © Copyright RED SHADOWS | RS - Shadow-x78
+
 #!/bin/bash
 
 set -e
