@@ -98,3 +98,4 @@ jobs:
           else
             echo "Some builds failed!"
             exit 1
+          fi
