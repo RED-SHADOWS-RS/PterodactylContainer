@@ -100,13 +100,13 @@ jobs:
     steps:
       - name: Check build results
         run: |
-          echo "☕ Java Build: ${{ needs.build-java.result }}"
-          echo "🟢 Node.js Build: ${{ needs.build-nodejs.result }}"
-          echo "🐍 Python Build: ${{ needs.build-python.result }}"
+          echo "Java Build: ${{ needs.build-java.result }}"
+          echo "Node.js Build: ${{ needs.build-nodejs.result }}"
+          echo "Python Build: ${{ needs.build-python.result }}"
           if [[ "${{ needs.build-java.result }}" == "success" && \
                 "${{ needs.build-nodejs.result }}" == "success" && \
                 "${{ needs.build-python.result }}" == "success" ]]; then
-            echo "🚀 All images built successfully!"
+            echo "All images built successfully!"
           else
-            echo "❌ Some builds failed!"
+            echo "Some builds failed!"
             exit 1
