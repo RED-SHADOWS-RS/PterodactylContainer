@@ -40,7 +40,6 @@
 
 docker pull ghcr.io/RED-SHADOWS-RS/java_v21
 
-
 # Node.js 22
 
 docker pull ghcr.io/RED-SHADOWS-RS/nodejs_v22
@@ -59,9 +58,9 @@ docker pull ghcr.io/RED-SHADOWS-RS/python_v3.12
 
 docker build -f src/generic/java/v21/Dockerfile -t pterodactyl-java:v21 src/generic/java/
 
-# Node.js 18
+# Node.js 22
 
-docker build -f src/generic/nodejs/v18/Dockerfile -t pterodactyl-nodejs:v18 src/generic/nodejs/
+docker build -f src/generic/nodejs/v22/Dockerfile -t pterodactyl-nodejs:v22 src/generic/nodejs/
 
 # Python 3.12
 
@@ -110,4 +109,4 @@ MIT — see [LICENSE](LICENSE)
 
 ---
 
-<span style="font-weight:bold;vertical-align:middle;">&#169; 2025 Copyright</span> <img src="https://img.shields.io/badge/RED%20SHADOWS%20%7C%20RS-DC143C?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="RED SHADOWS | RS" style="vertical-align:middle;"/> &#124; <img src="https://img.shields.io/badge/Shadow--x78-000000?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="Shadow-x78" style="vertical-align:middle;"/>
+<span style="font-weight:bold;vertical-align:middle;">&#169; 2025 Copyright</span> <img src="https://img.shields.io/badge/RED%20SHADOWS%20%7C%20RS-DC143C?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="RED SHADOWS | RS" style="vertical-align:middle;margin-bottom: -5px;"/> &#124; <img src="https://img.shields.io/badge/Shadow--x78-000000?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="Shadow-x78" style="vertical-align:middle;margin-bottom: -5px;"/> - <span style="font-weight:bold;vertical-align:middle;">&#124; All rights reserved</span>
