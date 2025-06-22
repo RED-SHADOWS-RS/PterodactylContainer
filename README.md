@@ -36,13 +36,14 @@
 ### 🐳 Pull from GitHub Container Registry
 
 ```bash
-# Node.js 22
-
-docker pull ghcr.io/RED-SHADOWS-RS/nodejs_v22
-
 # Java 21
 
 docker pull ghcr.io/RED-SHADOWS-RS/java_v21
+
+
+# Node.js 22
+
+docker pull ghcr.io/RED-SHADOWS-RS/nodejs_v22
 
 # Python 3.12
 
@@ -54,17 +55,17 @@ docker pull ghcr.io/RED-SHADOWS-RS/python_v3.12
 ### 🔨 Build locally
 
 ```bash
-# Java 17
+# Java 21
 
-docker build -f src/generic/java/v17/Dockerfile -t pterodactyl-java:v17 src/generic/java/
+docker build -f src/generic/java/v21/Dockerfile -t pterodactyl-java:v21 src/generic/java/
 
 # Node.js 18
 
 docker build -f src/generic/nodejs/v18/Dockerfile -t pterodactyl-nodejs:v18 src/generic/nodejs/
 
-# Python 3.9
+# Python 3.12
 
-docker build -f src/generic/python/v3.9/Dockerfile -t pterodactyl-python:v3.9 src/generic/python/
+docker build -f src/generic/python/v3.12/Dockerfile -t pterodactyl-python:v3.12 src/generic/python/
 ```
 
 ### ⚙️ Environment Variables
@@ -83,9 +84,9 @@ docker build -f src/generic/python/v3.9/Dockerfile -t pterodactyl-python:v3.9 sr
 Add the image URLs to the "Docker Images" field in your egg configuration:
 
 ```
+ghcr.io/RED-SHADOWS-RS/java_v21
 ghcr.io/RED-SHADOWS-RS/nodejs_v22
-ghcr.io/RED-SHADOWS-RS/java_v17
-ghcr.io/RED-SHADOWS-RS/python_v3.9
+ghcr.io/RED-SHADOWS-RS/python_v3.12
 ```
 
 Select the image when creating a server. Set the `STARTUP` variable and working directory as needed.
@@ -108,9 +109,5 @@ Select the image when creating a server. Set the `STARTUP` variable and working 
 MIT — see [LICENSE](LICENSE)
 
 ---
-
-<p style="text-align:center;">
-⭐ Star this repo if it helped you! ⭐
-</p>
 
 <span style="font-weight:bold;vertical-align:middle;">&#169; 2025 Copyright</span> <img src="https://img.shields.io/badge/RED%20SHADOWS%20%7C%20RS-DC143C?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="RED SHADOWS | RS" style="vertical-align:middle;"/> &#124; <img src="https://img.shields.io/badge/Shadow--x78-000000?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="Shadow-x78" style="vertical-align:middle;"/>
