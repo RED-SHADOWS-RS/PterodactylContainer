@@ -18,7 +18,7 @@
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="Java" width="20" height="20"/> Java
 
-**Versions:** 8, 11, 17, 21, 23  
+**Versions:** 8, 11, 17, 21
 **Base:** OpenJDK (Alpine)
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Node.js" width="20" height="20"/> Node.js
@@ -108,9 +108,4 @@ Select the image when creating a server. Set the `STARTUP` variable and working 
 MIT — see [LICENSE](LICENSE)
 
 ---
-
-<p style="text-align:center;">
-⭐ Star this repo if it helped you! ⭐
-</p>
-
 <span style="font-weight:bold;vertical-align:middle;">&#169; 2025 Copyright</span> <img src="https://img.shields.io/badge/RED%20SHADOWS%20%7C%20RS-DC143C?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="RED SHADOWS | RS" style="vertical-align:middle;"/> &#124; <img src="https://img.shields.io/badge/Shadow--x78-000000?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="Shadow-x78" style="vertical-align:middle;"/>
