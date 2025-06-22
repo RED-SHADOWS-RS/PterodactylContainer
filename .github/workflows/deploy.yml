@@ -42,31 +42,19 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     strategy:
       matrix:
-        version: [v12, v14, v16, v18, v20, v22]
+        version: [v18, v20, v22]
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
-      - name: Set Node.js version
-        id: nodejsver
-        run: |
-          echo "VERSION=${{ matrix.version }}" | sed 's/^v//' | tee -a $GITHUB_ENV
-          echo "VERSION=$(echo ${{ matrix.version }} | sed 's/^v//')" >> $GITHUB_OUTPUT
-      - name: Login to GitHub Container Registry
-        if: env.SHOULD_PUSH == 'true'
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build & Push Node.js ${{ matrix.version }}
+      - name: Build Node.js ${{ matrix.version }}
         uses: docker/build-push-action@v5
         with:
           context: ./src/generic/nodejs
           file: ./src/generic/nodejs/${{ matrix.version }}/Dockerfile
           platforms: linux/amd64,linux/arm64
-          push: ${{ env.SHOULD_PUSH }}
-          tags: ghcr.io/${{ github.repository_owner }}/nodejs_v${{ steps.nodejsver.outputs.VERSION }}
+          push: false
+          tags: pterodactyl-nodejs:${{ matrix.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -76,7 +64,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     strategy:
       matrix:
-        version: [v3.9, v3.11]
+        version: [v3.9, v3.10, v3.11, v3.12]
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-qemu-action@v3

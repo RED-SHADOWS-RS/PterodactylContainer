@@ -23,7 +23,7 @@
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Node.js" width="20" height="20"/> Node.js
 
-**Versions:** 12, 14, 16, 18, 20, 22  
+**Versions:** 18, 20, 22  
 **Base:** Official Node.js (Alpine)
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python" width="20" height="20"/> Python
