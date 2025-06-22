@@ -12,14 +12,14 @@ on:
   release:
     types: [published]
 
-jobs:
-  build-java:
+jobs:  build-java:
     name: "Build Java Images"
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')    strategy:
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    strategy:
       fail-fast: false
       matrix:
-        version: [v8, v11, v17, v18, v19, v20, v21, v22, v23]
+        version: [v8, v11, v17, v21, v23]
 
     steps:
       - name: Checkout repository
