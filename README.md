@@ -18,7 +18,7 @@
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="Java" width="20" height="20"/> Java
 
-**Versions:** 8, 11, 17, 21, 23  
+**Versions:** 8, 11, 17, 21
 **Base:** OpenJDK (Alpine)
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Node.js" width="20" height="20"/> Node.js
@@ -28,7 +28,7 @@
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python" width="20" height="20"/> Python
 
-**Versions:** 3.6, 3.7, 3.8, 3.9, 3.11  
+**Versions:** 3.9, 3.10, 3.11, 3.12
 **Base:** Python Slim (Debian)
 
 ## 🚀 Usage
@@ -40,13 +40,13 @@
 
 docker pull ghcr.io/RED-SHADOWS-RS/nodejs_v22
 
-# Java 17
+# Java 21
 
-docker pull ghcr.io/RED-SHADOWS-RS/java_v17
+docker pull ghcr.io/RED-SHADOWS-RS/java_v21
 
-# Python 3.9
+# Python 3.12
 
-docker pull ghcr.io/RED-SHADOWS-RS/python_v3.9
+docker pull ghcr.io/RED-SHADOWS-RS/python_v3.12
 ```
 
 > Change the tag/version as needed.
@@ -108,9 +108,5 @@ Select the image when creating a server. Set the `STARTUP` variable and working 
 MIT — see [LICENSE](LICENSE)
 
 ---
-
-<p style="text-align:center;">
-⭐ Star this repo if it helped you! ⭐
-</p>
 
 <span style="font-weight:bold;vertical-align:middle;">&#169; 2025 Copyright</span> <img src="https://img.shields.io/badge/RED%20SHADOWS%20%7C%20RS-DC143C?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="RED SHADOWS | RS" style="vertical-align:middle;"/> &#124; <img src="https://img.shields.io/badge/Shadow--x78-000000?style=flat&logo=github&logoColor=white&labelColor=2F2F2F" alt="Shadow-x78" style="vertical-align:middle;"/>

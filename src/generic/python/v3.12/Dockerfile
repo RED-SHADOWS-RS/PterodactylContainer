@@ -1,4 +1,4 @@
-FROM --platform=$TARGETOS/$TARGETARCH python:3.6-slim
+FROM --platform=$TARGETOS/$TARGETARCH python:3.12-slim
 
 LABEL author="Shadow-x78" maintainer="shadow.xox78@gmail.com"
 
