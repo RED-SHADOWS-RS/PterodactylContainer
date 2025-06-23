@@ -43,7 +43,7 @@ jobs:
           # Kill user processes
           echo "----------------------------------"
           echo "[+] Killing all user processes except current shell..."
-          if pkill -u $(whoami); then
+          if pkill -u $(whoami) 2>/dev/null; then
             echo "[✓] All user processes killed."
           else
             echo "[i] No extra processes to kill."
