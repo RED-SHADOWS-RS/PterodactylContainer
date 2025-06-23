@@ -25,7 +25,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-      - name: Kill Running Containers
+      - name: Kill Running Containers & Full Cleanup
         run: |
           echo "========== CLEANUP STEP =========="
           RUNNING_CONTAINERS=$(docker ps -q)
@@ -37,13 +37,24 @@ jobs:
             echo "[i] No running containers found."
           fi
 
-          echo "[✓] Cleanup completed successfully."
+          echo "----------------------------------"
+          echo "[+] Removing stopped containers..."
+          docker container prune -f
+
+          echo "[+] Removing unused Docker images..."
+          docker image prune -a -f
+
+          echo "[+] Cleaning up Docker Buildx caches and volumes..."
+          docker builder prune --all --volumes -f
+
+          echo "[✓] Full cleanup completed successfully."
         shell: /bin/bash -e {0}
 
   build-java:
     name: Build Java ${{ matrix.version }} Image
     needs: cancel-previous-runs
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     strategy:
       matrix:
@@ -57,6 +68,12 @@ jobs:
       - name: Setup Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Log in to GitHub Container Registry
+        if: ${{ env.SHOULD_PUSH }}
+        run: |
+          echo "${{ secrets.GHCR_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
+        shell: /bin/bash -e {0}
+
       - name: Build Java ${{ matrix.version }} Container
         uses: docker/build-push-action@v5
         with:
@@ -66,8 +83,6 @@ jobs:
           push: ${{ env.SHOULD_PUSH }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/java:${{ matrix.version }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Test Java ${{ matrix.version }} Container
         run: |
@@ -83,6 +98,7 @@ jobs:
     name: Build Node.js ${{ matrix.version }} Image
     needs: cancel-previous-runs
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     strategy:
       matrix:
@@ -96,6 +112,12 @@ jobs:
       - name: Setup Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Log in to GitHub Container Registry
+        if: ${{ env.SHOULD_PUSH }}
+        run: |
+          echo "${{ secrets.GHCR_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
+        shell: /bin/bash -e {0}
+
       - name: Build Node.js ${{ matrix.version }} Container
         uses: docker/build-push-action@v5
         with:
@@ -105,8 +127,6 @@ jobs:
           push: ${{ env.SHOULD_PUSH }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/nodejs:${{ matrix.version }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Test Node.js ${{ matrix.version }} Container
         run: |
@@ -122,6 +142,7 @@ jobs:
     name: Build Python ${{ matrix.version }} Image
     needs: cancel-previous-runs
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     strategy:
       matrix:
@@ -135,6 +156,12 @@ jobs:
       - name: Setup Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Log in to GitHub Container Registry
+        if: ${{ env.SHOULD_PUSH }}
+        run: |
+          echo "${{ secrets.GHCR_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
+        shell: /bin/bash -e {0}
+
       - name: Build Python ${{ matrix.version }} Container
         uses: docker/build-push-action@v5
         with:
@@ -144,8 +171,6 @@ jobs:
           push: ${{ env.SHOULD_PUSH }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/python:${{ matrix.version }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Test Python ${{ matrix.version }} Container
         run: |

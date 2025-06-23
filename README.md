@@ -37,15 +37,12 @@
 
 ```bash
 # Java 21
-
 docker pull ghcr.io/red-shadows-rs/pterodactyl-containers/java:v21
 
 # Node.js 22
-
 docker pull ghcr.io/red-shadows-rs/pterodactyl-containers/nodejs:v22
 
 # Python 3.12
-
 docker pull ghcr.io/red-shadows-rs/pterodactyl-containers/python:v3.12
 ```
 
@@ -55,15 +52,12 @@ docker pull ghcr.io/red-shadows-rs/pterodactyl-containers/python:v3.12
 
 ```bash
 # Java 21
-
 docker build -f src/generic/java/v21/Dockerfile -t ghcr.io/red-shadows-rs/pterodactyl-containers/java:v21 src/generic/java/
 
 # Node.js 22
-
 docker build -f src/generic/nodejs/v22/Dockerfile -t ghcr.io/red-shadows-rs/pterodactyl-containers/nodejs:v22 src/generic/nodejs/
 
 # Python 3.12
-
 docker build -f src/generic/python/v3.12/Dockerfile -t ghcr.io/red-shadows-rs/pterodactyl-containers/python:v3.12 src/generic/python/
 ```
 
