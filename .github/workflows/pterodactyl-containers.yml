@@ -16,45 +16,8 @@ env:
   SHOULD_PUSH: ${{ github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
 
 jobs:
-  cancel-previous-runs:
-    name: Cleanup
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cancel Previous Workflow Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
-
-      - name: Kill Running Containers & Full Cleanup
-        run: |
-          echo "========== CLEANUP STEP =========="
-
-          # Stop running containers
-          RUNNING_CONTAINERS=$(docker ps -q)
-          if [[ -n "$RUNNING_CONTAINERS" ]]; then
-            echo "[+] Stopping containers: $RUNNING_CONTAINERS"
-            docker kill $RUNNING_CONTAINERS
-            echo "[✓] All running containers killed."
-          else
-            echo "[i] No running containers found."
-          fi
-
-          echo "----------------------------------"
-          echo "[+] Removing stopped containers..."
-          docker container prune -f
-
-          echo "[+] Removing unused Docker images..."
-          docker image prune -a -f
-
-          echo "[+] Cleaning up Docker Buildx caches..."
-          docker buildx prune -a --cache -f
-
-          echo "[✓] Full cleanup completed successfully."
-        shell: /bin/bash -e {0}
-
   build-java:
     name: Build Java ${{ matrix.version }} Image
-    needs: cancel-previous-runs
     runs-on: ubuntu-latest
     timeout-minutes: 30
     if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
@@ -98,7 +61,6 @@ jobs:
 
   build-nodejs:
     name: Build Node.js ${{ matrix.version }} Image
-    needs: cancel-previous-runs
     runs-on: ubuntu-latest
     timeout-minutes: 30
     if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
@@ -142,7 +104,6 @@ jobs:
 
   build-python:
     name: Build Python ${{ matrix.version }} Image
-    needs: cancel-previous-runs
     runs-on: ubuntu-latest
     timeout-minutes: 30
     if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
