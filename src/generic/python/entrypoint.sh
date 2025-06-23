@@ -7,21 +7,6 @@ umask 022
 export TZ=${TZ:-UTC}
 cd /home/container || exit 1
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-if [[ -z "${STARTUP}" ]]; then
-    echo "ERROR: STARTUP environment variable is not set"
-    exit 1
-fi
-
-PARSED=$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g')
-PARSED=$(eval echo "$PARSED")
-
-if [[ -z "${PARSED}" ]]; then
-    echo "ERROR: Parsed startup command is empty"
-=======
-=======
->>>>>>> 11f6d56aa0c0aa91668de480aa2a1eca9e86a7cf
 if [[ -z "${STARTUP_FILE}" ]]; then
     echo "ERROR: STARTUP_FILE environment variable is not set"
     exit 1
@@ -32,10 +17,6 @@ PARSED=$(eval echo "$PARSED")
 
 if [[ -z "${PARSED}" ]]; then
     echo "ERROR: Parsed startup file is empty"
-<<<<<<< HEAD
->>>>>>> 11f6d56 (PterodactylContainers | v7.3 | Improved Name Variables)
-=======
->>>>>>> 11f6d56aa0c0aa91668de480aa2a1eca9e86a7cf
     exit 1
 fi
 

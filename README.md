@@ -34,22 +34,6 @@
 ## 🚀 Usage
 
 > **Authentication Required:**
-<<<<<<< HEAD
-<<<<<<< HEAD
-> 
-> To push images to GitHub Container Registry (GHCR), you must create a **Classic Personal Access Token (classic PAT)** with the following scopes:
-> - `write:packages`
-> - `read:packages`
-> - `delete:packages`
-> 
-> After creating the token, add it to your repository secrets as **GHCR_TOKEN** under:
-> 
-> `GitHub Repository → Settings → Secrets and variables → Actions`
-> 
-=======
-=======
->>>>>>> 11f6d56aa0c0aa91668de480aa2a1eca9e86a7cf
->
 > To push images to GitHub Container Registry (GHCR), you must create a **Classic Personal Access Token (classic PAT)** with the following scopes:
 >
 > - `write:packages`
@@ -60,10 +44,6 @@
 >
 > `GitHub Repository → Settings → Secrets and variables → Actions`
 >
-<<<<<<< HEAD
->>>>>>> 11f6d56 (PterodactylContainers | v7.3 | Improved Name Variables)
-=======
->>>>>>> 11f6d56aa0c0aa91668de480aa2a1eca9e86a7cf
 > This token will be used for authentication during the image push process in GitHub Actions.
 
 ### 🐳 Pull from GitHub Container Registry
@@ -98,15 +78,7 @@ docker build -f src/generic/python/v3.12/Dockerfile -t ghcr.io/red-shadows-rs/pt
 
 | Variable  | Description                | Default | Required |
 |-----------|----------------------------|---------|----------|
-<<<<<<< HEAD
-<<<<<<< HEAD
-| `STARTUP` | Startup command            | -       | ✅       |
-=======
 | `STARTUP_FILE` | Startup File            | -       | ✅       |
->>>>>>> 11f6d56 (PterodactylContainers | v7.3 | Improved Name Variables)
-=======
-| `STARTUP_FILE` | Startup File            | -       | ✅       |
->>>>>>> 11f6d56aa0c0aa91668de480aa2a1eca9e86a7cf
 | `TZ`      | Timezone                   | `UTC`   | ❌       |
 
 ### 📁 Volume
@@ -128,15 +100,7 @@ ghcr.io/red-shadows-rs/pterodactyl-containers/nodejs:v22
 ghcr.io/red-shadows-rs/pterodactyl-containers/python:v3.12
 ```
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-Select the image when creating a server. Set the `STARTUP` variable and working directory as needed.
-=======
 Select the image when creating a server. Set the `STARTUP_FILE` variable and working directory as needed.
->>>>>>> 11f6d56 (PterodactylContainers | v7.3 | Improved Name Variables)
-=======
-Select the image when creating a server. Set the `STARTUP_FILE` variable and working directory as needed.
->>>>>>> 11f6d56aa0c0aa91668de480aa2a1eca9e86a7cf
 
 ## 🤖 GitHub Actions
 
