@@ -27,10 +27,7 @@ jobs:
 
       - name: Kill Running Containers
         run: |
-          echo "========== CLEANUP STEP =========="
-
-          # Stop running containers
-          echo "[+] Checking for running Docker containers..."
+          echo "========== CLEANUP STEP ==========
           RUNNING_CONTAINERS=$(docker ps -q)
           if [[ -n "$RUNNING_CONTAINERS" ]]; then
             echo "[+] Stopping containers: $RUNNING_CONTAINERS"
