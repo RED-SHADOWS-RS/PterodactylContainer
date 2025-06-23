@@ -49,6 +49,13 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/java:${{ matrix.version }}
 
+      - name: Clean Docker Build Cache
+        run: |
+          echo "[+] Cleaning up Docker build cache..."
+          docker buildx prune -a --cache -f
+          echo "[✓] Build cache removed."
+        shell: /bin/bash -e {0}
+
   build-nodejs:
     name: Build Node.js ${{ matrix.version }} Image
     runs-on: ubuntu-latest
@@ -82,6 +89,13 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/nodejs:${{ matrix.version }}
 
+      - name: Clean Docker Build Cache
+        run: |
+          echo "[+] Cleaning up Docker build cache..."
+          docker buildx prune -a --cache -f
+          echo "[✓] Build cache removed."
+        shell: /bin/bash -e {0}
+
   build-python:
     name: Build Python ${{ matrix.version }} Image
     runs-on: ubuntu-latest
@@ -114,6 +128,13 @@ jobs:
           push: ${{ env.SHOULD_PUSH }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/python:${{ matrix.version }}
+
+      - name: Clean Docker Build Cache
+        run: |
+          echo "[+] Cleaning up Docker build cache..."
+          docker buildx prune -a --cache -f
+          echo "[✓] Build cache removed."
+        shell: /bin/bash -e {0}
 
   build-summary:
     name: Build Summary
