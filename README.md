@@ -85,22 +85,12 @@ docker build -f src/generic/python/v3.12/Dockerfile -t ghcr.io/red-shadows-rs/pt
 
 - `/home/container` — App files & data
 
-### 🥚 With Pterodactyl Eggs
 
-Add the image URLs to the "Docker Images" field in your egg configuration:
+### 🥚 Pterodactyl Eggs
 
-```
-# Java 21
-ghcr.io/red-shadows-rs/pterodactyl-containers/java:v21
+Find official Eggs and setup guides here:
 
-# Node.js 22
-ghcr.io/red-shadows-rs/pterodactyl-containers/nodejs:v22
-
-# Python 3.12
-ghcr.io/red-shadows-rs/pterodactyl-containers/python:v3.12
-```
-
-Select the image when creating a server. Set the `STARTUP_FILE` variable and working directory as needed.
+[Official Pterodactyl Eggs Repository](https://github.com/red-shadows-rs/pterodactyl-eggs/blob/main/README.md)
 
 ## 🤖 GitHub Actions
 
