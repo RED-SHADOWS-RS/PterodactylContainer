@@ -21,4 +21,4 @@ if [[ -z "${PARSED}" ]]; then
 fi
 
 echo >&2 "Starting: $PARSED"
-exec bash -c "$PARSED"
+${PARSED}
