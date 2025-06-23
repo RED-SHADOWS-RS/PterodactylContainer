@@ -43,7 +43,11 @@ jobs:
           # Kill user processes
           echo "----------------------------------"
           echo "[+] Killing all user processes except current shell..."
-          pkill -u $(whoami) || echo "[i] No extra processes to kill."
+          if pkill -u $(whoami); then
+            echo "[✓] All user processes killed."
+          else
+            echo "[i] No extra processes to kill."
+          fi
 
           echo "[✓] Cleanup completed successfully."
         shell: /bin/bash -e {0}
