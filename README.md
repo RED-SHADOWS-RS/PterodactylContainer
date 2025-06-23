@@ -19,12 +19,12 @@
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="Java" width="20" height="20"/> Java
 
 **Versions:** 8, 11, 17, 21
-**Base:** OpenJDK (Alpine)
+**Base:** Eclipse Temurin (Ubuntu Jammy)
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Node.js" width="20" height="20"/> Node.js
 
 **Versions:** 18, 20, 22  
-**Base:** Official Node.js (Alpine)
+**Base:** Official Node.js (Debian Bullseye Slim)
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python" width="20" height="20"/> Python
 
