@@ -25,7 +25,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-      - name: Kill Running Docker Containers and Processes
+      - name: Kill Running Containers
         run: |
           echo "========== CLEANUP STEP =========="
 
@@ -38,15 +38,6 @@ jobs:
             echo "[✓] All running containers killed."
           else
             echo "[i] No running containers found."
-          fi
-
-          # Kill user processes
-          echo "----------------------------------"
-          echo "[+] Killing all user processes except current shell..."
-          if pkill -u $(whoami) 2>/dev/null; then
-            echo "[✓] All user processes killed."
-          else
-            echo "[i] No extra processes to kill."
           fi
 
           echo "[✓] Cleanup completed successfully."
