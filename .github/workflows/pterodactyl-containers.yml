@@ -123,7 +123,6 @@ jobs:
     steps:
       - name: Generate Build Report
         run: |
-          echo "================ BUILD SUMMARY ================"
           echo "Java:     ${{ needs.build-java.result }}"
           echo "Node.js:  ${{ needs.build-nodejs.result }}"
           echo "Python:   ${{ needs.build-python.result }}"
@@ -137,18 +136,4 @@ jobs:
           else
             echo "[✓] All images built successfully!"
           fi
-        shell: /bin/bash -e {0}
-
-      - name: Final Docker Cleanup
-        if: success() || failure()
-        run: |
-          echo "[+] Starting final Docker cleanup..."
-
-          echo "[+] Cleaning up all Docker containers..."
-          docker container prune -f
-
-          echo "[+] Cleaning up unused Docker images..."
-          docker image prune -a -f
-
-          echo "[✓] Final cleanup completed successfully."
         shell: /bin/bash -e {0}

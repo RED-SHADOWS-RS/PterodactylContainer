@@ -90,7 +90,7 @@ docker build -f src/generic/python/v3.12/Dockerfile -t ghcr.io/red-shadows-rs/pt
 
 Find official Eggs and setup guides here:
 
-[Official Pterodactyl Eggs Repository](https://github.com/red-shadows-rs/pterodactyl-eggs/blob/main/README.md)
+[![Pterodactyl Eggs](https://img.shields.io/badge/Pterodactyl%20Eggs-Repository-blue?logo=github)](https://github.com/red-shadows-rs/pterodactyl-eggs/blob/main/README.md)
 
 ## 🤖 GitHub Actions
 
