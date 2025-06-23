@@ -28,6 +28,8 @@ jobs:
       - name: Kill Running Containers & Full Cleanup
         run: |
           echo "========== CLEANUP STEP =========="
+
+          # Stop running containers
           RUNNING_CONTAINERS=$(docker ps -q)
           if [[ -n "$RUNNING_CONTAINERS" ]]; then
             echo "[+] Stopping containers: $RUNNING_CONTAINERS"
@@ -44,8 +46,8 @@ jobs:
           echo "[+] Removing unused Docker images..."
           docker image prune -a -f
 
-          echo "[+] Cleaning up Docker Buildx caches and volumes..."
-          docker builder prune --all --volumes -f
+          echo "[+] Cleaning up Docker Buildx caches..."
+          docker buildx prune -a --cache -f
 
           echo "[✓] Full cleanup completed successfully."
         shell: /bin/bash -e {0}
