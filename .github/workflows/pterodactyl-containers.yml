@@ -49,13 +49,6 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/java:${{ matrix.version }}
 
-      - name: Clean Docker Build Cache
-        run: |
-          echo "[+] Cleaning up Docker build cache..."
-          docker buildx prune -a --cache -f
-          echo "[✓] Build cache removed."
-        shell: /bin/bash -e {0}
-
   build-nodejs:
     name: Build Node.js ${{ matrix.version }} Image
     runs-on: ubuntu-latest
@@ -88,13 +81,6 @@ jobs:
           push: ${{ env.SHOULD_PUSH }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/nodejs:${{ matrix.version }}
-
-      - name: Clean Docker Build Cache
-        run: |
-          echo "[+] Cleaning up Docker build cache..."
-          docker buildx prune -a --cache -f
-          echo "[✓] Build cache removed."
-        shell: /bin/bash -e {0}
 
   build-python:
     name: Build Python ${{ matrix.version }} Image
@@ -129,13 +115,6 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/python:${{ matrix.version }}
 
-      - name: Clean Docker Build Cache
-        run: |
-          echo "[+] Cleaning up Docker build cache..."
-          docker buildx prune -a --cache -f
-          echo "[✓] Build cache removed."
-        shell: /bin/bash -e {0}
-
   build-summary:
     name: Build Summary
     runs-on: ubuntu-latest
@@ -158,4 +137,21 @@ jobs:
           else
             echo "[✓] All images built successfully!"
           fi
+        shell: /bin/bash -e {0}
+
+      - name: Final Docker Cleanup
+        if: success() || failure()
+        run: |
+          echo "[+] Starting final Docker cleanup..."
+
+          echo "[+] Cleaning up all Docker containers..."
+          docker container prune -f
+
+          echo "[+] Cleaning up unused Docker images..."
+          docker image prune -a -f
+
+          echo "[+] Cleaning up Docker Buildx cache..."
+          docker buildx prune -a --cache -f
+
+          echo "[✓] Final cleanup completed successfully."
         shell: /bin/bash -e {0}

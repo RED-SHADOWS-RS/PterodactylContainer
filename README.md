@@ -33,6 +33,19 @@
 
 ## 🚀 Usage
 
+> **Authentication Required:**
+> 
+> To push images to GitHub Container Registry (GHCR), you must create a **Classic Personal Access Token (classic PAT)** with the following scopes:
+> - `write:packages`
+> - `read:packages`
+> - `delete:packages`
+> 
+> After creating the token, add it to your repository secrets as **GHCR_TOKEN** under:
+> 
+> `GitHub Repository → Settings → Secrets and variables → Actions`
+> 
+> This token will be used for authentication during the image push process in GitHub Actions.
+
 ### 🐳 Pull from GitHub Container Registry
 
 ```bash
