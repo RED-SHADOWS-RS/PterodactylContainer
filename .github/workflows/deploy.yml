@@ -17,7 +17,7 @@ env:
 
 jobs:
   cancel-previous-runs:
-    name: Cancel Previous Runs
+    name: Cancel Previous Runs & Cleanup
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Workflow Runs
@@ -25,20 +25,31 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-      - name: Kill Running Processes and Containers
+      - name: Kill Running Docker Containers and Processes
         run: |
-          echo "========== Cleanup Step =========="
-          echo "Stopping running Docker containers..."
-          docker kill $(docker ps -q) || echo "No running containers found."
+          echo "========== CLEANUP STEP =========="
 
+          # Stop running containers
+          echo "[+] Checking for running Docker containers..."
+          RUNNING_CONTAINERS=$(docker ps -q)
+          if [[ -n "$RUNNING_CONTAINERS" ]]; then
+            echo "[+] Stopping containers: $RUNNING_CONTAINERS"
+            docker kill $RUNNING_CONTAINERS
+            echo "[✓] All running containers killed."
+          else
+            echo "[i] No running containers found."
+          fi
+
+          # Kill user processes
           echo "----------------------------------"
-          echo "Killing user processes..."
-          pkill -u $(whoami) || echo "No extra processes to kill."
+          echo "[+] Killing all user processes except current shell..."
+          pkill -u $(whoami) || echo "[i] No extra processes to kill."
 
-          echo "Cleanup complete."
+          echo "[✓] Cleanup completed successfully."
+        shell: /bin/bash -e {0}
 
   build-java:
-    name: Build Java Images
+    name: Build Java ${{ matrix.version }} Image
     needs: cancel-previous-runs
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
@@ -47,9 +58,14 @@ jobs:
         version: [v8, v11, v17, v21]
     steps:
       - uses: actions/checkout@v4
-      - uses: docker/setup-qemu-action@v3
-      - uses: docker/setup-buildx-action@v3
-      - name: Build Java ${{ matrix.version }}
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Java ${{ matrix.version }} Container
         uses: docker/build-push-action@v5
         with:
           context: ./src/generic/java
@@ -62,17 +78,18 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Test Java Container Locally
+      - name: Test Java ${{ matrix.version }} Container
         run: |
-          echo "========== Testing Java ${{ matrix.version }} =========="
+          echo "========== TESTING JAVA ${{ matrix.version }} =========="
           docker run --name java-test-${{ matrix.version }} -d pterodactyl-java:${{ matrix.version }}
           sleep 5
           docker logs java-test-${{ matrix.version }} | head -n 20
           docker stop java-test-${{ matrix.version }}
           docker rm java-test-${{ matrix.version }}
+        shell: /bin/bash -e {0}
 
   build-nodejs:
-    name: Build Node.js Images
+    name: Build Node.js ${{ matrix.version }} Image
     needs: cancel-previous-runs
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
@@ -81,9 +98,14 @@ jobs:
         version: [v18, v20, v22]
     steps:
       - uses: actions/checkout@v4
-      - uses: docker/setup-qemu-action@v3
-      - uses: docker/setup-buildx-action@v3
-      - name: Build Node.js ${{ matrix.version }}
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Node.js ${{ matrix.version }} Container
         uses: docker/build-push-action@v5
         with:
           context: ./src/generic/nodejs
@@ -96,17 +118,18 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Test Node.js Container Locally
+      - name: Test Node.js ${{ matrix.version }} Container
         run: |
-          echo "========== Testing Node.js ${{ matrix.version }} =========="
+          echo "========== TESTING NODE.JS ${{ matrix.version }} =========="
           docker run --name nodejs-test-${{ matrix.version }} -d pterodactyl-nodejs:${{ matrix.version }}
           sleep 5
           docker exec nodejs-test-${{ matrix.version }} node -v
           docker stop nodejs-test-${{ matrix.version }}
           docker rm nodejs-test-${{ matrix.version }}
+        shell: /bin/bash -e {0}
 
   build-python:
-    name: Build Python Images
+    name: Build Python ${{ matrix.version }} Image
     needs: cancel-previous-runs
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
@@ -115,9 +138,14 @@ jobs:
         version: [v3.9, v3.10, v3.11, v3.12]
     steps:
       - uses: actions/checkout@v4
-      - uses: docker/setup-qemu-action@v3
-      - uses: docker/setup-buildx-action@v3
-      - name: Build Python ${{ matrix.version }}
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Python ${{ matrix.version }} Container
         uses: docker/build-push-action@v5
         with:
           context: ./src/generic/python
@@ -130,14 +158,15 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Test Python Container Locally
+      - name: Test Python ${{ matrix.version }} Container
         run: |
-          echo "========== Testing Python ${{ matrix.version }} =========="
+          echo "========== TESTING PYTHON ${{ matrix.version }} =========="
           docker run --name python-test-${{ matrix.version }} -d pterodactyl-python:${{ matrix.version }}
           sleep 5
           docker exec python-test-${{ matrix.version }} python${{ matrix.version }} --version
           docker stop python-test-${{ matrix.version }}
           docker rm python-test-${{ matrix.version }}
+        shell: /bin/bash -e {0}
 
   build-summary:
     name: Build Summary
@@ -147,17 +176,18 @@ jobs:
     steps:
       - name: Generate Build Report
         run: |
-          echo "================ Build Summary ================"
+          echo "================ BUILD SUMMARY ================"
           echo "Java:     ${{ needs.build-java.result }}"
           echo "Node.js:  ${{ needs.build-nodejs.result }}"
           echo "Python:   ${{ needs.build-python.result }}"
-          echo "-----------------------------------------------"
+          echo "------------------------------------------------"
 
           if [[ "${{ needs.build-java.result }}" != "success" || \
                 "${{ needs.build-nodejs.result }}" != "success" || \
                 "${{ needs.build-python.result }}" != "success" ]]; then
-            echo "Some builds failed! Please check the logs."
+            echo "[!] Some builds failed! Please check the logs."
             exit 1
           else
-            echo "All images built successfully!"
+            echo "[✓] All images built successfully!"
           fi
+        shell: /bin/bash -e {0}
