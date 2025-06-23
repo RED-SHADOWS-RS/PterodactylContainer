@@ -150,8 +150,5 @@ jobs:
           echo "[+] Cleaning up unused Docker images..."
           docker image prune -a -f
 
-          echo "[+] Cleaning up Docker Buildx cache..."
-          docker buildx prune -a --cache -f
-
           echo "[✓] Final cleanup completed successfully."
         shell: /bin/bash -e {0}
