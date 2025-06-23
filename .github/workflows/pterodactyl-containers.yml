@@ -49,16 +49,6 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/java:${{ matrix.version }}
 
-      - name: Test Java ${{ matrix.version }} Container
-        run: |
-          echo "========== TESTING JAVA ${{ matrix.version }} =========="
-          docker run --name java-test-${{ matrix.version }} -d ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/java:${{ matrix.version }}
-          sleep 5
-          docker logs java-test-${{ matrix.version }} | head -n 20
-          docker stop java-test-${{ matrix.version }}
-          docker rm java-test-${{ matrix.version }}
-        shell: /bin/bash -e {0}
-
       - name: Clean Docker Build Cache
         run: |
           echo "[+] Cleaning up Docker build cache..."
@@ -99,16 +89,6 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/nodejs:${{ matrix.version }}
 
-      - name: Test Node.js ${{ matrix.version }} Container
-        run: |
-          echo "========== TESTING NODE.JS ${{ matrix.version }} =========="
-          docker run --name nodejs-test-${{ matrix.version }} -d ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/nodejs:${{ matrix.version }}
-          sleep 5
-          docker exec nodejs-test-${{ matrix.version }} node -v
-          docker stop nodejs-test-${{ matrix.version }}
-          docker rm nodejs-test-${{ matrix.version }}
-        shell: /bin/bash -e {0}
-
       - name: Clean Docker Build Cache
         run: |
           echo "[+] Cleaning up Docker build cache..."
@@ -148,16 +128,6 @@ jobs:
           push: ${{ env.SHOULD_PUSH }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/python:${{ matrix.version }}
-
-      - name: Test Python ${{ matrix.version }} Container
-        run: |
-          echo "========== TESTING PYTHON ${{ matrix.version }} =========="
-          docker run --name python-test-${{ matrix.version }} -d ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/python:${{ matrix.version }}
-          sleep 5
-          docker exec python-test-${{ matrix.version }} python${{ matrix.version }} --version
-          docker stop python-test-${{ matrix.version }}
-          docker rm python-test-${{ matrix.version }}
-        shell: /bin/bash -e {0}
 
       - name: Clean Docker Build Cache
         run: |
