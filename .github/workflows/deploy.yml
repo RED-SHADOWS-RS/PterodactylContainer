@@ -11,23 +11,37 @@ on:
     types: [published]
 
 env:
-  SHOULD_PUSH: ${{ github.event_name == 'release' || github.event_name == 'push' }}
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ${{ github.repository }}
+  SHOULD_PUSH: ${{ github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
 
 jobs:
   cancel-previous-runs:
     name: Cancel Previous Runs
     runs-on: ubuntu-latest
     steps:
-      - name: Cancel Previous Runs
+      - name: Cancel Previous Workflow Runs
         uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ github.token }}
+
+      - name: Kill Running Processes and Containers
+        run: |
+          echo "========== Cleanup Step =========="
+          echo "Stopping running Docker containers..."
+          docker kill $(docker ps -q) || echo "No running containers found."
+
+          echo "----------------------------------"
+          echo "Killing user processes..."
+          pkill -u $(whoami) || echo "No extra processes to kill."
+
+          echo "Cleanup complete."
 
   build-java:
     name: Build Java Images
     needs: cancel-previous-runs
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     strategy:
       matrix:
         version: [v8, v11, v17, v21]
@@ -41,16 +55,27 @@ jobs:
           context: ./src/generic/java
           file: ./src/generic/java/${{ matrix.version }}/Dockerfile
           platforms: linux/amd64,linux/arm64
-          push: false
-          tags: pterodactyl-java:${{ matrix.version }}
+          push: ${{ env.SHOULD_PUSH }}
+          tags: |
+            pterodactyl-java:${{ matrix.version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/java:${{ matrix.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Test Java Container Locally
+        run: |
+          echo "========== Testing Java ${{ matrix.version }} =========="
+          docker run --name java-test-${{ matrix.version }} -d pterodactyl-java:${{ matrix.version }}
+          sleep 5
+          docker logs java-test-${{ matrix.version }} | head -n 20
+          docker stop java-test-${{ matrix.version }}
+          docker rm java-test-${{ matrix.version }}
 
   build-nodejs:
     name: Build Node.js Images
     needs: cancel-previous-runs
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     strategy:
       matrix:
         version: [v18, v20, v22]
@@ -64,16 +89,27 @@ jobs:
           context: ./src/generic/nodejs
           file: ./src/generic/nodejs/${{ matrix.version }}/Dockerfile
           platforms: linux/amd64,linux/arm64
-          push: false
-          tags: pterodactyl-nodejs:${{ matrix.version }}
+          push: ${{ env.SHOULD_PUSH }}
+          tags: |
+            pterodactyl-nodejs:${{ matrix.version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/nodejs:${{ matrix.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Test Node.js Container Locally
+        run: |
+          echo "========== Testing Node.js ${{ matrix.version }} =========="
+          docker run --name nodejs-test-${{ matrix.version }} -d pterodactyl-nodejs:${{ matrix.version }}
+          sleep 5
+          docker exec nodejs-test-${{ matrix.version }} node -v
+          docker stop nodejs-test-${{ matrix.version }}
+          docker rm nodejs-test-${{ matrix.version }}
 
   build-python:
     name: Build Python Images
     needs: cancel-previous-runs
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     strategy:
       matrix:
         version: [v3.9, v3.10, v3.11, v3.12]
@@ -87,10 +123,21 @@ jobs:
           context: ./src/generic/python
           file: ./src/generic/python/${{ matrix.version }}/Dockerfile
           platforms: linux/amd64,linux/arm64
-          push: false
-          tags: pterodactyl-python:${{ matrix.version }}
+          push: ${{ env.SHOULD_PUSH }}
+          tags: |
+            pterodactyl-python:${{ matrix.version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/python:${{ matrix.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Test Python Container Locally
+        run: |
+          echo "========== Testing Python ${{ matrix.version }} =========="
+          docker run --name python-test-${{ matrix.version }} -d pterodactyl-python:${{ matrix.version }}
+          sleep 5
+          docker exec python-test-${{ matrix.version }} python${{ matrix.version }} --version
+          docker stop python-test-${{ matrix.version }}
+          docker rm python-test-${{ matrix.version }}
 
   build-summary:
     name: Build Summary
@@ -98,18 +145,19 @@ jobs:
     needs: [build-java, build-nodejs, build-python]
     if: always()
     steps:
-      - name: Check build results
+      - name: Generate Build Report
         run: |
           echo "================ Build Summary ================"
           echo "Java:     ${{ needs.build-java.result }}"
           echo "Node.js:  ${{ needs.build-nodejs.result }}"
           echo "Python:   ${{ needs.build-python.result }}"
           echo "-----------------------------------------------"
-          if [[ "${{ needs.build-java.result }}" == "success" && \
-                "${{ needs.build-nodejs.result }}" == "success" && \
-                "${{ needs.build-python.result }}" == "success" ]]; then
-            echo "All images built successfully!"
-          else
-            echo "Some builds failed! See logs above."
+
+          if [[ "${{ needs.build-java.result }}" != "success" || \
+                "${{ needs.build-nodejs.result }}" != "success" || \
+                "${{ needs.build-python.result }}" != "success" ]]; then
+            echo "Some builds failed! Please check the logs."
             exit 1
+          else
+            echo "All images built successfully!"
           fi
