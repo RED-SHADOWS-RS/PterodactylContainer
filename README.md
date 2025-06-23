@@ -1,6 +1,6 @@
 <!-- © Copyright RED SHADOWS | RS - Shadow-x78 -->
 
-# PterodactylContainer 🔨
+# Pterodactyl Containers 🔨
 
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Pterodactyl](https://img.shields.io/badge/Pterodactyl-0e4688?style=for-the-badge&logo=pterodactyl&logoColor=white)
