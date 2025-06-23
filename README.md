@@ -38,15 +38,15 @@
 ```bash
 # Java 21
 
-docker pull ghcr.io/RED-SHADOWS-RS/java_v21
+docker pull ghcr.io/red-shadows-rs/java_v21
 
 # Node.js 22
 
-docker pull ghcr.io/RED-SHADOWS-RS/nodejs_v22
+docker pull ghcr.io/red-shadows-rs/nodejs_v22
 
 # Python 3.12
 
-docker pull ghcr.io/RED-SHADOWS-RS/python_v3.12
+docker pull ghcr.io/red-shadows-rs/python_v3.12
 ```
 
 > Change the tag/version as needed.
@@ -83,9 +83,9 @@ docker build -f src/generic/python/v3.12/Dockerfile -t pterodactyl-python:v3.12 
 Add the image URLs to the "Docker Images" field in your egg configuration:
 
 ```
-ghcr.io/RED-SHADOWS-RS/java_v21
-ghcr.io/RED-SHADOWS-RS/nodejs_v22
-ghcr.io/RED-SHADOWS-RS/python_v3.12
+ghcr.io/red-shadows-rs/java_v21
+ghcr.io/red-shadows-rs/nodejs_v22
+ghcr.io/red-shadows-rs/python_v3.12
 ```
 
 Select the image when creating a server. Set the `STARTUP` variable and working directory as needed.

@@ -14,8 +14,18 @@ env:
   SHOULD_PUSH: ${{ github.event_name == 'release' || github.event_name == 'push' }}
 
 jobs:
+  cancel-previous-runs:
+    name: Cancel Previous Runs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.12.1
+        with:
+          access_token: ${{ github.token }}
+
   build-java:
     name: Build Java Images
+    needs: cancel-previous-runs
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     strategy:
@@ -38,6 +48,7 @@ jobs:
 
   build-nodejs:
     name: Build Node.js Images
+    needs: cancel-previous-runs
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     strategy:
@@ -60,6 +71,7 @@ jobs:
 
   build-python:
     name: Build Python Images
+    needs: cancel-previous-runs
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     strategy:
