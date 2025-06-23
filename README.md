@@ -1,10 +1,6 @@
 <!-- © Copyright RED SHADOWS | RS - Shadow-x78 -->
 
-<<<<<<< HEAD
 # Pterodactyl Containers 🔨
-=======
-# Pterodactyl Container 🔨
->>>>>>> 6ad255b080661678adbf6126711d0743d4340cad
 
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Pterodactyl](https://img.shields.io/badge/Pterodactyl-0e4688?style=for-the-badge&logo=pterodactyl&logoColor=white)
@@ -42,15 +38,15 @@
 ```bash
 # Java 21
 
-docker pull ghcr.io/red-shadows-rs/java_v21
+docker pull ghcr.io/red-shadows-rs/pterodactyl-containers/java:v21
 
 # Node.js 22
 
-docker pull ghcr.io/red-shadows-rs/nodejs_v22
+docker pull ghcr.io/red-shadows-rs/pterodactyl-containers/nodejs:v22
 
 # Python 3.12
 
-docker pull ghcr.io/red-shadows-rs/python_v3.12
+docker pull ghcr.io/red-shadows-rs/pterodactyl-containers/python:v3.12
 ```
 
 > Change the tag/version as needed.
@@ -60,15 +56,15 @@ docker pull ghcr.io/red-shadows-rs/python_v3.12
 ```bash
 # Java 21
 
-docker build -f src/generic/java/v21/Dockerfile -t pterodactyl-java:v21 src/generic/java/
+docker build -f src/generic/java/v21/Dockerfile -t ghcr.io/red-shadows-rs/pterodactyl-containers/java:v21 src/generic/java/
 
 # Node.js 22
 
-docker build -f src/generic/nodejs/v22/Dockerfile -t pterodactyl-nodejs:v22 src/generic/nodejs/
+docker build -f src/generic/nodejs/v22/Dockerfile -t ghcr.io/red-shadows-rs/pterodactyl-containers/nodejs:v22 src/generic/nodejs/
 
 # Python 3.12
 
-docker build -f src/generic/python/v3.12/Dockerfile -t pterodactyl-python:v3.12 src/generic/python/
+docker build -f src/generic/python/v3.12/Dockerfile -t ghcr.io/red-shadows-rs/pterodactyl-containers/python:v3.12 src/generic/python/
 ```
 
 ### ⚙️ Environment Variables
@@ -87,9 +83,14 @@ docker build -f src/generic/python/v3.12/Dockerfile -t pterodactyl-python:v3.12 
 Add the image URLs to the "Docker Images" field in your egg configuration:
 
 ```
-ghcr.io/red-shadows-rs/java_v21
-ghcr.io/red-shadows-rs/nodejs_v22
-ghcr.io/red-shadows-rs/python_v3.12
+# Java 21
+ghcr.io/red-shadows-rs/pterodactyl-containers/java:v21
+
+# Node.js 22
+ghcr.io/red-shadows-rs/pterodactyl-containers/nodejs:v22
+
+# Python 3.12
+ghcr.io/red-shadows-rs/pterodactyl-containers/python:v3.12
 ```
 
 Select the image when creating a server. Set the `STARTUP` variable and working directory as needed.
