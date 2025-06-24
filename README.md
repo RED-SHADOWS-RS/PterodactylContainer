@@ -19,16 +19,19 @@
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="Java" width="20" height="20"/> Java
 
 **Versions:** 8, 11, 17, 21
+
 **Base:** Eclipse Temurin (Ubuntu Jammy)
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Node.js" width="20" height="20"/> Node.js
 
-**Versions:** 18, 20, 22  
+**Versions:** 18, 20, 22
+
 **Base:** Official Node.js (Debian Bullseye Slim)
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python" width="20" height="20"/> Python
 
 **Versions:** 3.9, 3.10, 3.11, 3.12
+
 **Base:** Python Slim (Debian)
 
 ## 🚀 Usage
@@ -78,7 +81,7 @@ docker build -f src/languages/python/v3.12/Dockerfile -t ghcr.io/red-shadows-rs/
 
 | Variable  | Description                | Default | Required |
 |-----------|----------------------------|---------|----------|
-| `STARTUP_FILE` | Startup File            | -       | ✅       |
+| `STARTUP` | Startup Coomand            | -       | ✅       |
 | `TZ`      | Timezone                   | `UTC`   | ❌       |
 
 ### 📁 Volume
