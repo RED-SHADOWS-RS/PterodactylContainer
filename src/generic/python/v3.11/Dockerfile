@@ -46,5 +46,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
 
 STOPSIGNAL SIGTERM
 
-COPY ./../../../entrypoint.sh /entrypoint.sh
+COPY ./../../entrypoint.sh /entrypoint.sh
 CMD ["/bin/bash", "/entrypoint.sh"]
