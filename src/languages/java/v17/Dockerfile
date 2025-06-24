@@ -1,15 +1,15 @@
 # © Copyright RED SHADOWS | RS - Shadow-x78
 
-FROM --platform=$TARGETOS/$TARGETARCH node:22-bullseye-slim
+FROM --platform=$TARGETOS/$TARGETARCH eclipse-temurin:17-jdk-jammy
 
 LABEL author="Shadow-x78" \
       maintainer="support@red-shadows-rs.com" \
       version="1.0.0" \
-      description="Node.js 22 runtime for Pterodactyl Panel" \
+      description="Java 17 LTS runtime for Pterodactyl Panel" \
       org.opencontainers.image.source="https://github.com/RED-SHADOWS-RS/PterodactylContainer" \
       org.opencontainers.image.vendor="RED SHADOWS | RS" \
-      org.opencontainers.image.title="Pterodactyl Node.js 22" \
-      org.opencontainers.image.description="Secure Node.js 22 container for Pterodactyl"
+      org.opencontainers.image.title="Pterodactyl Java 17" \
+      org.opencontainers.image.description="Secure Java 17 LTS container for Pterodactyl"
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -35,14 +35,15 @@ RUN apt-get update \
 USER container
 ENV USER=container \
     HOME=/home/container \
+    JAVA_OPTS="-XX:+UseG1GC -XX:+UseStringDeduplication" \
     TZ=UTC
 
 WORKDIR /home/container
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-    CMD node --version 2>&1 | grep -q "v22" || exit 1
+    CMD java -version 2>&1 | grep -q "Eclipse Temurin" || exit 1
 
 STOPSIGNAL SIGTERM
 
-COPY ./src/entrypoint.sh /entrypoint.sh
-CMD ["/bin/bash", "/entrypoint.sh"]
+COPY ./entrypoint.sh /entrypoint.sh
+CMD [ "/bin/bash", "/entrypoint.sh" ]

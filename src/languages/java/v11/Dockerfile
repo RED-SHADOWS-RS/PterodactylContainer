@@ -1,17 +1,15 @@
 # © Copyright RED SHADOWS | RS - Shadow-x78
 
-FROM --platform=$TARGETOS/$TARGETARCH python:3.11-slim
+FROM --platform=$TARGETOS/$TARGETARCH eclipse-temurin:11-jdk-jammy
 
 LABEL author="Shadow-x78" \
       maintainer="support@red-shadows-rs.com" \
       version="1.0.0" \
-      description="Python 3.11 runtime for Pterodactyl Panel" \
+      description="Java 11 LTS runtime for Pterodactyl Panel" \
       org.opencontainers.image.source="https://github.com/RED-SHADOWS-RS/PterodactylContainer" \
       org.opencontainers.image.vendor="RED SHADOWS | RS" \
-      org.opencontainers.image.title="Pterodactyl Python 3.11" \
-      org.opencontainers.image.description="Secure Python 3.11 container for Pterodactyl"
-
-ENV DEBIAN_FRONTEND=noninteractive
+      org.opencontainers.image.title="Pterodactyl Java 11" \
+      org.opencontainers.image.description="Secure Java 11 LTS container for Pterodactyl"
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -37,14 +35,15 @@ RUN apt-get update \
 USER container
 ENV USER=container \
     HOME=/home/container \
+    JAVA_OPTS="-XX:+UseG1GC" \
     TZ=UTC
 
 WORKDIR /home/container
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-    CMD python3 --version 2>&1 | grep -q "Python 3.11" || exit 1
+    CMD java -version 2>&1 | grep -q "Eclipse Temurin" || exit 1
 
 STOPSIGNAL SIGTERM
 
-COPY ./src/entrypoint.sh /entrypoint.sh
-CMD ["/bin/bash", "/entrypoint.sh"]
+COPY ./entrypoint.sh /entrypoint.sh
+CMD [ "/bin/bash", "/entrypoint.sh" ]

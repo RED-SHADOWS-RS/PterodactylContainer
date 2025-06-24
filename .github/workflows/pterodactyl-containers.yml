@@ -42,8 +42,8 @@ jobs:
       - name: Build Java ${{ matrix.version }} Container
         uses: docker/build-push-action@v5
         with:
-          context: ./src/generic/java
-          file: ./src/generic/java/${{ matrix.version }}/Dockerfile
+          context: ./src/languages/java
+          file: ./src/languages/java/${{ matrix.version }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: ${{ env.SHOULD_PUSH }}
           tags: |
@@ -75,8 +75,8 @@ jobs:
       - name: Build Node.js ${{ matrix.version }} Container
         uses: docker/build-push-action@v5
         with:
-          context: ./src/generic/nodejs
-          file: ./src/generic/nodejs/${{ matrix.version }}/Dockerfile
+          context: ./src/languages/nodejs
+          file: ./src/languages/nodejs/${{ matrix.version }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: ${{ env.SHOULD_PUSH }}
           tags: |
@@ -108,8 +108,8 @@ jobs:
       - name: Build Python ${{ matrix.version }} Container
         uses: docker/build-push-action@v5
         with:
-          context: ./src/generic/python
-          file: ./src/generic/python/${{ matrix.version }}/Dockerfile
+          context: ./src/languages/python
+          file: ./src/languages/python/${{ matrix.version }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: ${{ env.SHOULD_PUSH }}
           tags: |

@@ -1,15 +1,17 @@
 # © Copyright RED SHADOWS | RS - Shadow-x78
 
-FROM --platform=$TARGETOS/$TARGETARCH eclipse-temurin:21-jdk-jammy
+FROM --platform=$TARGETOS/$TARGETARCH python:3.9-slim
 
 LABEL author="Shadow-x78" \
       maintainer="support@red-shadows-rs.com" \
       version="1.0.0" \
-      description="Java 21 LTS runtime for Pterodactyl Panel" \
+      description="Python 3.9 runtime for Pterodactyl Panel" \
       org.opencontainers.image.source="https://github.com/RED-SHADOWS-RS/PterodactylContainer" \
       org.opencontainers.image.vendor="RED SHADOWS | RS" \
-      org.opencontainers.image.title="Pterodactyl Java 21" \
-      org.opencontainers.image.description="Secure Java 21 LTS container for Pterodactyl"
+      org.opencontainers.image.title="Pterodactyl Python 3.9" \
+      org.opencontainers.image.description="Secure Python 3.9 container for Pterodactyl"
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -35,15 +37,14 @@ RUN apt-get update \
 USER container
 ENV USER=container \
     HOME=/home/container \
-    JAVA_OPTS="-XX:+UseG1GC -XX:+UseStringDeduplication" \
     TZ=UTC
 
 WORKDIR /home/container
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-    CMD java -version 2>&1 | grep -q "Eclipse Temurin" || exit 1
+    CMD python3 --version 2>&1 | grep -q "Python 3.9" || exit 1
 
 STOPSIGNAL SIGTERM
 
-COPY ./src/entrypoint.sh /entrypoint.sh
-CMD [ "/bin/bash", "/entrypoint.sh" ]
+COPY ./entrypoint.sh /entrypoint.sh
+CMD ["/bin/bash", "/entrypoint.sh"]
