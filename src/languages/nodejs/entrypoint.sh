@@ -13,7 +13,6 @@ if [[ -z "${STARTUP}" ]]; then
 fi
 
 PARSED=$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g')
-PARSED=$(eval echo "$PARSED")
 
 if [[ -z "${PARSED}" ]]; then
     echo "ERROR: Parsed startup command is empty"
@@ -22,4 +21,4 @@ fi
 
 echo ":/home/container\$ ${PARSED}"
 
-${PARSED}
+exec bash -c "${PARSED}"
